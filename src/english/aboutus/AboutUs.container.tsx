@@ -1,15 +1,13 @@
-import { useRouter } from 'next/dist/client/router'
-import { useContext, useEffect } from 'react'
-import { GlobalContext } from '../../../pages/_app'
-import AboutUsUI from './AboutUs.presenter'
+import { useRouter } from 'next/dist/client/router';
+import AboutUsUI from './AboutUs.presenter';
+import { useLanguageContext } from '../../context/language/language';
 
 const AboutUsComponent = () => {
-  const { language } = useContext(GlobalContext)
-  const data = require(`../../../pages/api/${language}.json`)
-  const router = useRouter()
-  const pageIndex = Number(router.query.item)
-  const introPage = 'aboutUsIntroPage'
-  const visionPage = 'aboutUsVisionPage'
+  const { languageData: data } = useLanguageContext();
+  const router = useRouter();
+  const pageIndex = Number(router.query.item);
+  const introPage = 'aboutUsIntroPage';
+  const visionPage = 'aboutUsVisionPage';
   return (
     <AboutUsUI
       data={data}
@@ -17,7 +15,7 @@ const AboutUsComponent = () => {
       introPage={introPage}
       visionPage={visionPage}
     />
-  )
-}
+  );
+};
 
-export default AboutUsComponent
+export default AboutUsComponent;

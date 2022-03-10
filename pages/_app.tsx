@@ -1,36 +1,36 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import LayOut from '../src/layout'
-import Head from 'next/head'
-import { createContext, useState } from 'react'
-
-export const GlobalContext = createContext({
-  isOpen: false,
-  setIsOpen: (_: any) => {},
-  language: '',
-  setLanguage: (_: any) => {},
-  menu: '',
-  setMenu: (_: any) => {},
-})
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+import LayOut from '../src/layout';
+import { LanguageProvider } from '../src/context/language/language';
+import { HeaderProvider } from '../src/context/header/header';
+import { useRouter } from 'next/dist/client/router';
+import { Toaster } from 'react-hot-toast';
+import { AdminProvider } from '../src/context/admin/admin';
+import AdminIndicator from '../src/common/AdminIndicator/AdminIndicator';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [language, setLanguage] = useState('en')
-  const [menu, setMenu] = useState('')
-  const data = require(`../pages/api/${language}.json`)
+  const router = useRouter();
+
+  if (router.pathname.includes('/admin'))
+    return (
+      <>
+        <Component {...pageProps} />
+        <Toaster />
+      </>
+    );
+
   return (
-    <>
-      <Head>
-        <title>{data.title}</title>
-      </Head>
-      <GlobalContext.Provider
-        value={{ isOpen, setIsOpen, language, setLanguage, menu, setMenu }}
-      >
-        <LayOut>
-          <Component {...pageProps} />
-        </LayOut>
-      </GlobalContext.Provider>
-    </>
-  )
+    <AdminProvider>
+      <HeaderProvider>
+        <LanguageProvider>
+          <LayOut>
+            <Component {...pageProps} />
+            <Toaster />
+            <AdminIndicator />
+          </LayOut>
+        </LanguageProvider>
+      </HeaderProvider>
+    </AdminProvider>
+  );
 }
-export default MyApp
+export default MyApp;

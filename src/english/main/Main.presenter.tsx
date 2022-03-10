@@ -1,3 +1,5 @@
+import PdfBox from '../../common/PdfBox.tsx/PdfBox';
+import { LanguageData } from '../../context/language/language.model';
 import {
   AboutUsDetails,
   AboutUsDetailsWrapper,
@@ -41,21 +43,19 @@ import {
   SliderSubDraggableWrapper,
   SliderSubTextWrapper,
   SliderTextWrapper,
-  SpecificationButton,
-  SpecificationButtonHref,
   MagneticTorquerSubProductWrapper,
-} from './Main.styles'
+} from './Main.styles';
 
-interface IProps {
-  data: any
-  onClickSliderNext: any
-  translate: any
-  onClickSliderPrevious: any
-  language: any
-  onClickProductDetails: any
-  onClickApplicationDetails: any
-  onClickAboutUsDetails: any
-  onClickCareersDetails: any
+interface Props {
+  data: LanguageData;
+  onClickSliderNext: any;
+  translate: any;
+  onClickSliderPrevious: any;
+  language: any;
+  onClickProductDetails: any;
+  onClickApplicationDetails: any;
+  onClickAboutUsDetails: any;
+  onClickCareersDetails: any;
 }
 
 const MainUI = ({
@@ -68,21 +68,32 @@ const MainUI = ({
   onClickApplicationDetails,
   onClickAboutUsDetails,
   onClickCareersDetails,
-}: IProps) => {
+}: Props) => {
   return (
     <>
       <SliderMainWrapper>
-        <SliderTextWrapper>{data.SliderText.SliderMainText}</SliderTextWrapper>
-        <SliderSubTextWrapper>
-          {data.SliderText.SliderSubText}
-        </SliderSubTextWrapper>
+        <SliderTextWrapper
+          value={data.SliderText.SliderMainText}
+          name={'SliderText.SliderMainText'}
+        />
+        <SliderSubTextWrapper
+          value={data.SliderText.SliderSubText}
+          name={'SliderText.SliderSubText'}
+        />
         <SliderSubDraggableWrapper>
           <SliderDraggableWrapper>
             <SliderMidWrapper>
               <SliderInnerImageWrapper translate={translate}>
-                {data.main.slider.images.map((imageUrl: string) => (
-                  <SliderImage src={imageUrl} key={imageUrl} />
-                ))}
+                {data.main.slider.images.map(
+                  (imageUrl: string, index: number) => (
+                    <SliderImage
+                      as={'div'}
+                      name={`main.slider.images.${index}`}
+                      src={imageUrl}
+                      key={imageUrl}
+                    />
+                  )
+                )}
               </SliderInnerImageWrapper>
             </SliderMidWrapper>
             <SliderPreviousButton onClick={onClickSliderPrevious} />
@@ -91,7 +102,7 @@ const MainUI = ({
         </SliderSubDraggableWrapper>
       </SliderMainWrapper>
       <MainTitleWrapper>
-        <MainTitle>{data.main.title}</MainTitle>
+        <MainTitle value={data.main.title} name={'main.title'} as={'span'} />
       </MainTitleWrapper>
       <MainOuterWrapper>
         <MainLineWrapper>
@@ -101,65 +112,77 @@ const MainUI = ({
       </MainOuterWrapper>
       <MainProductsOuterWrapper>
         <MainProductsNameWrapper>
-          <MainProductText>{data.main.mainProductOneName}</MainProductText>
-          <MainProductText>{data.main.mainProductTwoName}</MainProductText>
+          <MainProductText
+            value={data.main.mainProductOneName}
+            name={'main.mainProductOneName'}
+          />
+          <MainProductText
+            value={data.main.mainProductTwoName}
+            name={'main.mainProductTwoName'}
+          />
         </MainProductsNameWrapper>
       </MainProductsOuterWrapper>
       <MainOuterImagesWrapper>
         <MainImagesWrapper>
           <ProductWrapper>
-            {data.main.satellite.map((value: any, index: number) => (
+            {data.main.satellite.map((value, index) => (
               <ProductSubWrapper key={index}>
                 <ProductImageWrapper>
-                  <ProductImage src={value.image} />
-                  <ProductImageText>{value.name}</ProductImageText>
+                  <ProductImage
+                    name={`main.satellite.${index}.image`}
+                    src={value.image}
+                  />
+                  <ProductImageText
+                    as={'span'}
+                    name={`main.satellite.${index}.name`}
+                    value={value.name}
+                  />
                 </ProductImageWrapper>
-                <SpecificationButtonHref
+                <PdfBox
+                  name={`main.satellite.${index}.download`}
                   href={value.download}
-                >
-                  <SpecificationButton>
-                    {data.main.specificationButton}
-                  </SpecificationButton>
-                </SpecificationButtonHref>
+                />
               </ProductSubWrapper>
             ))}
           </ProductWrapper>
           <ProductWrapper>
-            {data.main.defense.map((value: any, index: number) => (
+            {data.main.defense.map((value, index) => (
               <ProductSubWrapper key={index}>
                 <ProductImageWrapper>
-                  <ProductImage src={value.image} />
-                  <ProductImageText>{value.name}</ProductImageText>
+                  <ProductImage
+                    src={value.image}
+                    name={`main.defense.${index}.image`}
+                  />
+                  <ProductImageText
+                    as={'span'}
+                    name={`main.defense.${index}.name`}
+                    value={value.name}
+                  />
                 </ProductImageWrapper>
-                <SpecificationButtonHref
+                <PdfBox
+                  name={`main.defense.${index}.download`}
                   href={value.download}
-                >
-                  <SpecificationButton>
-                    {data.main.specificationButton}
-                  </SpecificationButton>
-                </SpecificationButtonHref>
+                />
               </ProductSubWrapper>
             ))}
           </ProductWrapper>
         </MainImagesWrapper>
       </MainOuterImagesWrapper>
       <MainThirdLineDivider />
-      <MagneticTorquerProductWrapper>
-        {data.main.mainProductThreeName}
-      </MagneticTorquerProductWrapper>
-      {data.main.magneticTorquer.map((value: any, index: any) => (
+      <MagneticTorquerProductWrapper
+        value={data.main.mainProductThreeName}
+        name={'main.mainProductThreeName'}
+      />
+      {data.main.magneticTorquer.map((value, index) => (
         <MagneticTorquerSubProductWrapper key={index}>
           <MainThirdProductImageWrapper
-            //@ts-expect-error
-            data={value.image}
+            src={value.image}
+            name={`main.magneticTorquer.${index}.image`}
           />
-          <SpecificationButtonHref
+          <PdfBox
+            name={`main.magneticTorquer.${index}.download`}
             href={value.download}
-          >
-            <SpecificationButton>
-              {data.main.specificationButton}
-            </SpecificationButton>
-          </SpecificationButtonHref>
+          />
         </MagneticTorquerSubProductWrapper>
       ))}
 
@@ -172,21 +195,21 @@ const MainUI = ({
           </NavBarMainMenusWrapper>
           <NavBarMainMenuDetailWrapper>
             <ProductDetailsWrapper>
-              {data.navBar.products.map((data: any, index: any) => (
+              {data.products.map((data, index) => (
                 <ProductDetails
                   key={index}
-                  id={index}
+                  id={index + ''}
                   onClick={onClickProductDetails}
                 >
-                  {data}
+                  {data.name}
                 </ProductDetails>
               ))}
             </ProductDetailsWrapper>
             <ApplicationsDetailsWrapper language={language}>
-              {data.navBar.applications.map((data: any, index: any) => (
+              {data.navBar.applications.map((data: any, i: number) => (
                 <ApplicationsDetails
-                  key=""
-                  id={index}
+                  key={i}
+                  id={i + ''}
                   onClick={onClickApplicationDetails}
                 >
                   {data}
@@ -194,10 +217,10 @@ const MainUI = ({
               ))}
             </ApplicationsDetailsWrapper>
             <AboutUsDetailsWrapper language={language}>
-              {data.navBar.aboutUs.map((data: any, index: any) => (
+              {data.navBar.aboutUs.map((data: any, i: number) => (
                 <AboutUsDetails
-                  key=""
-                  id={index}
+                  key={i}
+                  id={i + ''}
                   onClick={onClickAboutUsDetails}
                 >
                   {data}
@@ -206,10 +229,10 @@ const MainUI = ({
             </AboutUsDetailsWrapper>
             {language === 'kor' && (
               <CareersDetailsWrapper>
-                {data.navBar.careers.map((data: any, index: any) => (
+                {data.navBar.careers?.map((data: any, i: number) => (
                   <CareersDetails
-                    key=""
-                    id={index}
+                    key={i}
+                    id={i + ''}
                     onClick={onClickCareersDetails}
                   >
                     {data}
@@ -221,7 +244,7 @@ const MainUI = ({
         </NavBarDetailsRepeatWrapper>
       </NavBarOuterWrapper>
     </>
-  )
-}
+  );
+};
 
-export default MainUI
+export default MainUI;

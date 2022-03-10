@@ -1,7 +1,23 @@
-import ApplicationComponet from '../../src/english/application/Application.container'
+import ApplicationComponent from '../../src/english/application/Application.container';
+import { withSessionSsr } from '../../src/lib/withSession';
+import { useAdminContext } from '../../src/context/admin/admin';
+import { useEffect } from 'react';
 
-const Application = () => {
-  return <ApplicationComponet />
-}
+const Application = ({ isAdmin }: { isAdmin: boolean }) => {
+  const { setIsAdmin } = useAdminContext();
 
-export default Application
+  useEffect(() => {
+    setIsAdmin(isAdmin);
+  }, [isAdmin, setIsAdmin]);
+
+  return <ApplicationComponent />;
+};
+
+export default Application;
+
+export const getServerSideProps = withSessionSsr(async ({ req }) => {
+  // @ts-ignore
+  const isAdmin = !!req.session?.user?.admin;
+
+  return { props: { isAdmin } };
+});

@@ -1,28 +1,30 @@
-import GoogleMapsComponent from '../googlemap/Google.container'
+import GoogleMapsComponent from '../googlemap/Google.container';
 import {
   ContactUsTitle,
   ContactUsBigWrapper,
   ContactUsDetails,
   ContactUsMapWrapper,
-} from './ContactUs.styles'
+} from './ContactUs.styles';
 interface IProps {
-  data: any
+  data: any;
 }
 
 const ContactUsUI = ({ data }: IProps) => {
   return (
-    <>
-      <ContactUsBigWrapper>
-        <ContactUsTitle>{data.contactUs.title}</ContactUsTitle>
-        {data.contactUs.details.map((data: any) => (
-          <ContactUsDetails key="">{data.content}</ContactUsDetails>
-        ))}
-        <ContactUsMapWrapper>
-          <GoogleMapsComponent />
-        </ContactUsMapWrapper>
-      </ContactUsBigWrapper>
-    </>
-  )
-}
+    <ContactUsBigWrapper>
+      <ContactUsTitle value={data.contactUs.title} name={`contactUs.title`} />
+      {data.contactUs.details.map((data: any, i: number) => (
+        <ContactUsDetails
+          key={i}
+          value={data.content}
+          name={`contactUs.details.${i}.content`}
+        />
+      ))}
+      <ContactUsMapWrapper>
+        <GoogleMapsComponent />
+      </ContactUsMapWrapper>
+    </ContactUsBigWrapper>
+  );
+};
 
-export default ContactUsUI
+export default ContactUsUI;

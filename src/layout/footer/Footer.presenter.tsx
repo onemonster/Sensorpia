@@ -1,4 +1,4 @@
-import { useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/dist/client/router';
 import {
   FooterAddressDetailWrapper,
   FooterBigWrapper,
@@ -7,13 +7,13 @@ import {
   FooterOthersOne,
   FooterOtherTwo,
   FooterWrapper,
-} from './Footer.styles'
+} from './Footer.styles';
 interface IProps {
-  data: any
+  data: any;
 }
 const FooterUI = ({ data }: IProps) => {
-  const router = useRouter()
-  const selected = router.pathname
+  const router = useRouter();
+  const selected = router.pathname;
   return (
     <>
       <FooterBigWrapper selected={selected === '/contactUs'}>
@@ -22,16 +22,21 @@ const FooterUI = ({ data }: IProps) => {
             //@ts-ignore
             src={data.main.logo}
           />
-          <FooterAddressDetailWrapper>
-            {data.footer.Address}
-          </FooterAddressDetailWrapper>
-          <FooterOthersOne>{data.footer.Others[0]}</FooterOthersOne>
+          <FooterAddressDetailWrapper
+            value={data.footer.Address}
+            name={'footer.Address'}
+          />
+          <FooterOthersOne href="/terms_of_service">
+            {data.footer.Others[0]}
+          </FooterOthersOne>
           <FooterDivider />
-          <FooterOtherTwo>{data.footer.Others[1]}</FooterOtherTwo>
+          <FooterOtherTwo href="/privacy_policy">
+            {data.footer.Others[1]}
+          </FooterOtherTwo>
         </FooterWrapper>
       </FooterBigWrapper>
     </>
-  )
-}
+  );
+};
 
-export default FooterUI
+export default FooterUI;

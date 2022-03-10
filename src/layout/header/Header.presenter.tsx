@@ -1,6 +1,4 @@
-import { useRouter } from 'next/dist/client/router'
-import { useContext } from 'react'
-import { GlobalContext } from '../../../pages/_app'
+import { useRouter } from 'next/dist/client/router';
 import {
   AboutUsDetails,
   AboutUsDetailsWrapper,
@@ -11,14 +9,7 @@ import {
   HeaderBigWrapper,
   HeaderWrapper,
   LanguageChangeWrapper,
-  LanguageEnglish,
-  LanguageKorean,
-  MenuAboutUs,
-  MenuApplication,
-  MenuCareers,
-  MenuContactUs,
-  MenuHome,
-  MenuProduct,
+  LanguageButton,
   MenusWrapper,
   NavBarMainMenu,
   NavBarMainMenuDetailWrapper,
@@ -32,24 +23,25 @@ import {
   SensorpiaTempLogoWrapper,
   MenuItem,
   HeaderSubWrapper,
-} from './Header.styles'
+} from './Header.styles';
+import { useHeaderContext } from '../../context/header/header';
 
 interface IProps {
-  data: any
-  language: any
-  onClickLanguage: any
-  menu: any
-  onMouseOverMenu: any
-  onMouseOverDetailMenu: any
-  detailMenu: any
-  onClickLogo: any
-  sideBar: any
-  onClickMenu: any
-  onClickApplicationDetailMenu: any
-  onClickProductDetailMenu: any
-  onClickAboutUsDetailMenu: any
-  onClickCareersDetailMenu: any
-  onMouseLeaveMenu: any
+  data: any;
+  language: any;
+  onClickLanguage: any;
+  menu: any;
+  onMouseOverMenu: any;
+  onMouseOverDetailMenu: any;
+  detailMenu: any;
+  onClickLogo: any;
+  sideBar: any;
+  onClickMenu: any;
+  onClickApplicationDetailMenu: any;
+  onClickProductDetailMenu: any;
+  onClickAboutUsDetailMenu: any;
+  onClickCareersDetailMenu: any;
+  onMouseLeaveMenu: any;
 }
 
 const HeaderUI = ({
@@ -69,8 +61,8 @@ const HeaderUI = ({
   onClickCareersDetailMenu,
   onMouseLeaveMenu,
 }: IProps) => {
-  const { isOpen } = useContext(GlobalContext)
-  const router = useRouter()
+  const { isOpen } = useHeaderContext();
+  const router = useRouter();
   return (
     <>
       <HeaderBigWrapper
@@ -136,20 +128,20 @@ const HeaderUI = ({
                 {data.main.ContactUs}
               </MenuItem>
               <LanguageChangeWrapper>
-                <LanguageEnglish
+                <LanguageButton
                   id="en"
                   onClick={onClickLanguage}
-                  language={language}
+                  selected={language === 'en'}
                 >
                   {data.main.Eng}
-                </LanguageEnglish>
-                <LanguageKorean
+                </LanguageButton>
+                <LanguageButton
                   id="kor"
                   onClick={onClickLanguage}
-                  language={language}
+                  selected={language === 'kor'}
                 >
                   {data.main.Kor}
-                </LanguageKorean>
+                </LanguageButton>
               </LanguageChangeWrapper>
             </MenusWrapper>
           </HeaderSubWrapper>
@@ -159,15 +151,15 @@ const HeaderUI = ({
         <NavBarBigWrapper onMouseLeave={onMouseLeaveMenu}>
           <NavBarWrapper>
             <NavBarMainMenusWrapper language={language}>
-              {data.navBar?.list.map((data: any) => (
-                <NavBarMainMenu key="">{data}</NavBarMainMenu>
+              {data.navBar?.list.map((data: any, i: number) => (
+                <NavBarMainMenu key={i}>{data}</NavBarMainMenu>
               ))}
             </NavBarMainMenusWrapper>
             <NavBarMainMenuDetailWrapper language={language}>
               <ProductDetailsWrapper>
                 {data.navBar.products.map((data: any, index: any) => (
                   <ProductDetails
-                    key=""
+                    key={index}
                     id={data}
                     onClick={onClickProductDetailMenu}
                     onMouseOver={onMouseOverDetailMenu}
@@ -178,9 +170,9 @@ const HeaderUI = ({
                 ))}
               </ProductDetailsWrapper>
               <ApplicationsDetailsWrapper language={language}>
-                {data.navBar.applications.map((data: any) => (
+                {data.navBar.applications.map((data: any, i: number) => (
                   <ApplicationsDetails
-                    key=""
+                    key={i}
                     id={data}
                     onMouseOver={onMouseOverDetailMenu}
                     onClick={onClickApplicationDetailMenu}
@@ -191,9 +183,9 @@ const HeaderUI = ({
                 ))}
               </ApplicationsDetailsWrapper>
               <AboutUsDetailsWrapper language={language}>
-                {data.navBar.aboutUs.map((data: any) => (
+                {data.navBar.aboutUs.map((data: any, i: number) => (
                   <AboutUsDetails
-                    key=""
+                    key={i}
                     id={data}
                     onClick={onClickAboutUsDetailMenu}
                     onMouseOver={onMouseOverDetailMenu}
@@ -205,9 +197,9 @@ const HeaderUI = ({
               </AboutUsDetailsWrapper>
               {language === 'kor' && (
                 <CareersDetailsWrapper>
-                  {data.navBar.careers.map((data: any) => (
+                  {data.navBar.careers.map((data: any, i: number) => (
                     <CareersDetails
-                      key=""
+                      key={i}
                       id={data}
                       onMouseOver={onMouseOverDetailMenu}
                       menuColor={detailMenu === data}
@@ -223,7 +215,7 @@ const HeaderUI = ({
         </NavBarBigWrapper>
       )}
     </>
-  )
-}
+  );
+};
 
-export default HeaderUI
+export default HeaderUI;
